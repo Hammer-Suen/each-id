@@ -1,3 +1,4 @@
+**中文 | [English](README.md)**
 ## EachId v2.0 —— 极简、极强、41M+ QPS
 
 <div align="left">
