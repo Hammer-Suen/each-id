@@ -5,6 +5,7 @@
 ![JDK](https://img.shields.io/badge/JDK-8%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 [![CI](https://github.com/carlos-suen/eachid/actions/workflows/ci.yml/badge.svg)](https://github.com/carlos-suen/eachid/actions/workflows/ci.yml)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 [![GitHub release](https://img.shields.io/github/v/release/Hammer-Suen/eachid?include_prereleases&color=brightgreen)](https://github.com/Hammer-Suen/eachid/releases)
 ![Maven Central](https://img.shields.io/maven-central/v/com.eachid/eachid-lock?color=brightgreen)
 ![Single Thread](https://img.shields.io/badge/Single%20Thread-41M%2B%20QPS-red)
