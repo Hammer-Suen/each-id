@@ -1,3 +1,4 @@
+**[中文](README_CN.md) | English**
 # EachId v2.0 — Minimalist, Powerful, 41M+ QPS
 
 <div align="left">
@@ -207,5 +208,3 @@ This project is licensed under the **MIT License**. You are free to use, modify,
 </div>
 
 ---
-
-**[中文](README_CN.md) | English**
