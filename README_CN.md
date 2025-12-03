@@ -1,18 +1,20 @@
-## EachId v2 - EachId v2 —— 极简、极强、41M+ QPS
+## EachId v2.0 —— 极简、极强、41M+ QPS
 
-<div align="center">
+<div align="left">
 
 ![JDK](https://img.shields.io/badge/JDK-8%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
+[![CI](https://github.com/carlos-suen/eachid/actions/workflows/ci.yml/badge.svg)](https://github.com/carlos-suen/eachid/actions/workflows/ci.yml)
+[![GitHub release](https://img.shields.io/github/v/release/Hammer-Suen/eachid?include_prereleases&color=brightgreen)](https://github.com/Hammer-Suen/eachid/releases)
 ![Maven Central](https://img.shields.io/maven-central/v/com.eachid/eachid-lock?color=brightgreen)
-
 ![Single Thread](https://img.shields.io/badge/Single%20Thread-41M%2B%20QPS-red)
 ![64 Threads](https://img.shields.io/badge/64%20Threads-17M%2B%20QPS-orange)
 ![EachIdGroup](https://img.shields.io/badge/EachIdGroup%208%20instances-140M%2B%20QPS-critical)
 
+
 </div>
 
-> **EachId v2 —— 最务实且性能极致的一款ID生成器。**
+> **EachId —— 最务实且性能极致的一款ID生成器。**
 >
 不依赖任何数据库、Redis、Zookeeper、Etcd，也不搞复杂的 RingBuffer、CAS 退避或借未来时间。它只用最最朴实的 Java + synchronized，却在真实机器上跑出了单实例 41M+ QPS、64 线程 17M+ QPS 的恐怖性能，轻松吊打市面所有同类方案。
 
@@ -114,8 +116,8 @@ long first = eachId.nextId(1000);    // 300M+ QPS
 /* 默认配置：时间戳35位 + 数据中心0位 + WorkerId 8位 + 序列号20位
 WorkerId默认自动根据Ip+Mac进行分配, 时间戳步进100ms, 可用108年, 理论1千万+QPS, 时钟回拨容忍1000ms*/
 EachIdGroup group = new EachIdGroup()
-    .setStartWorkerIdAndCount(0, 8)     // 8个分片,workerId从0开始分配 (0-7)
-    .setBalancingStrategy(EachIdGroup.BalancingStrategy.THREAD_LOCAL_FIXED); //负载均衡策略, 多实例负载方式, 最高性能
+                .setStartWorkerIdAndCount(0, 8)     // 8个分片,workerId从0开始分配 (0-7)
+                .setBalancingStrategy(EachIdGroup.BalancingStrategy.THREAD_LOCAL_FIXED); //负载均衡策略, 多实例负载方式, 最高性能
 
 
 long id = group.nextId();            // 单JVM 140M+ QPS
@@ -134,41 +136,41 @@ long id = group.nextId();            // 单JVM 140M+ QPS
 #### **1. EachId完全自定义配置**
 ```java
 EachId eachId = new EachId()
-    .setTimestampBits(35)        // 35位时间戳，~109年有效期(100ms步长)
-    .setWorkerIdBits(6)          // 6位WorkerId，64个节点
-    .setSequenceBits(22)         // 22位序列号，419万ID/100ms
-    .setStepMs(100)              // 100ms时间步长
-    .setEpoch("2025-01-01")      // 自定义起始时间
-    .setClockBackwardThresholdMs(1000)  // 1秒时钟回拨容忍:低于1秒钟的回拨不作处理,继续发放id
-    .autoWorkerId();             // 自动分配WorkerId或可以自定义setWorkerId(n)
+        .setTimestampBits(35)        // 35位时间戳，~109年有效期(100ms步长)
+        .setWorkerIdBits(6)          // 6位WorkerId，64个节点
+        .setSequenceBits(22)         // 22位序列号，419万ID/100ms
+        .setStepMs(100)              // 100ms时间步长
+        .setEpoch("2025-01-01")      // 自定义起始时间
+        .setClockBackwardThresholdMs(1000)  // 1秒时钟回拨容忍:低于1秒钟的回拨不作处理,继续发放id
+        .autoWorkerId();             // 自动分配WorkerId或可以自定义setWorkerId(n)
 
 ```
 ```java
 System.out.println(eachId.getInfo());//打印配置信息
 
-    控制台显示配置信息(可用年限,理论容量等):
-    ═══════════════════════════════════════
-    EachId Config
-    Epoch           : 2025-01-01
-    StepMs          : 100 ms
-    Bits            : 35(ts)+0(dc)+6(wk)+22(seq)=63 bits
-    Timestamp Range : 34,359,738,367 steps × 100 ms = ~108 years 348 days
-    Capacity        : 64 nodes | 4,194,304 IDs/100ms (≈41,943,040 IDs/sec theoretical)
-    WorkerId        : 1 (max 63)
-    ═══════════════════════════════════════
+控制台显示配置信息(可用年限,理论容量等):
+═══════════════════════════════════════
+EachId Config
+Epoch           : 2025-01-01
+StepMs          : 100 ms
+Bits            : 35(ts)+0(dc)+6(wk)+22(seq)=63 bits
+Timestamp Range : 34,359,738,367 steps × 100 ms = ~108 years 348 days
+Capacity        : 64 nodes | 4,194,304 IDs/100ms (≈41,943,040 IDs/sec theoretical)
+WorkerId        : 1 (max 63)
+═══════════════════════════════════════
 ```
 
 #### **2. EachIdGroup完全自定义配置**
 ```java
 EachIdGroup group = new EachIdGroup()
-    .setTimestampBits(35)        // 35位时间戳
-    .setDatacenterIdBits(0)      // 0位数据中心
-    .setWorkerIdBits(8)          // 8位WorkerId，256个节点
-    .setSequenceBits(20)         // 20位序列号，104万ID/100ms
-    .setStartWorkerIdAndCount(10, 4)  // WorkerId从10开始，共4个实例
-    .setStepMs(100)              // 100ms时间步长
-    .setClockBackwardThresholdMs(1000)  // 1秒时钟回拨容忍
-    .setBalancingStrategy(EachIdGroup.BalancingStrategy.THREAD_LOCAL_ROUND_ROBIN);
+        .setTimestampBits(35)        // 35位时间戳
+        .setDatacenterIdBits(0)      // 0位数据中心
+        .setWorkerIdBits(8)          // 8位WorkerId，256个节点
+        .setSequenceBits(20)         // 20位序列号，104万ID/100ms
+        .setStartWorkerIdAndCount(10, 4)  // WorkerId从10开始，共4个实例
+        .setStepMs(100)              // 100ms时间步长
+        .setClockBackwardThresholdMs(1000)  // 1秒时钟回拨容忍
+        .setBalancingStrategy(EachIdGroup.BalancingStrategy.THREAD_LOCAL_ROUND_ROBIN);
 ```
 
 
@@ -185,7 +187,7 @@ EachIdGroup group = new EachIdGroup()
     EachId v2 就是我对分布式 ID 生成器的终极答案。
 ```
 
-GitHub: https://github.com/eachid/eachid  
+GitHub: [EachId](https://github.com/carlos-suen/eachid)  
 作者：Carlos Suen  
 时间：2025
 
@@ -193,7 +195,7 @@ GitHub: https://github.com/eachid/eachid
 
 本项目采用 **MIT 许可证**，你可以在几乎任意场景下自由使用、修改、商用。
 
-**© 2024-Present [Carlos Suen](https://github.com/你的GitHub用户名)**
+**© 2024-Present [Carlos Suen](https://github.com/carlos-suen)**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
