@@ -16,7 +16,7 @@
 
 > **EachId — The most pragmatic and ultimate-performance ID Generator.**
 
-    It does not rely on any databases, Redis, ZooKeeper, or Etcd, nor does it involve complex RingBuffer, CAS backoff, or borrowing future timestamps. It only uses the most straightforward Java + `synchronized`, yet achieves a staggering performance of **41M+ QPS for a single instance** and **17M+ QPS with 64 threads** on real hardware, effortlessly outperforming all comparable solutions on the market.
+It does not rely on any databases, Redis, ZooKeeper, or Etcd, nor does it involve complex RingBuffer, CAS backoff, or borrowing future timestamps. It only uses the most straightforward Java + `synchronized`, yet achieves a staggering performance of **41M+ QPS for a single instance** and **17M+ QPS with 64 threads** on real hardware, effortlessly outperforming all comparable solutions on the market.
 
 - **Want ultimate performance?** Set the step to 50ms and sequence bits to 24, a single instance easily achieves **80M+ QPS**.
 - **Want an ultra-long lifespan?** 33-bit timestamp + 1000ms step, lasts comfortably into the 22nd century.
